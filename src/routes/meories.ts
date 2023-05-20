@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { z } from 'zod'
 
 import { prisma } from '../lib/prisma'
 
@@ -16,5 +17,21 @@ export async function memoriesRoutes(app: FastifyInstance) {
         excerpt: memory.content.substring(0, 115).concat('...'),
       }
     })
+  })
+
+  app.get('/memories/:id', async (request) => {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const { id } = paramsSchema.parse(request.params)
+
+    const memory = await prisma.memory.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    })
+
+    return memory
   })
 }
