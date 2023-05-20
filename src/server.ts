@@ -1,7 +1,7 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
 
-import { memoriesRoutes } from './routes/meories'
+import { memoriesRoutes } from './routes/memories'
 
 const app = fastify()
 
